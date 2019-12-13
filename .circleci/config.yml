@@ -7,22 +7,18 @@ version: 2 #uses CircleCI 2.0
       docker:
         - image: 'circleci/node:8'
       steps:
+        - run: 
+          name:     Install dependenies with npm
+          command:  npm install
         - checkout
+        - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+          - node_modules
         - restore_cache:
             keys:
-              - v1-dependencies-{{ checksum "package.json" }}
+              - v1-dependencies-{{ arch}}--{{ checksum "package.json" }}
               - v1-dependencies-
-        - run: 
-            name:     Install dependenies with npm
-            command:  npm install
-
-        - save_cache:
-            key: v1-dependencies-{{ checksum "package.json" }}
-            paths:
-              - node_modules
-              
-        - run: 'yarn test'
-
 
 workflow:
   version: 2
