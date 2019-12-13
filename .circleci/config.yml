@@ -1,20 +1,31 @@
 
-version: 2
+version: 2 #uses CircleCI 2.0
 
-jobs:
-  build:
-    docker:
-      - image: 'circleci/node:8'
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - 'v1-dependencies-{{ checksum "package.json" }}'
-            - v1-dependencies-
-      - run: 'yarn install'
-      - save_cache:
-          paths:
-            - node_modules
-          key: 'v1-dependencies-{{ checksum "package.json" }}'
-      - run: 'yarn test'
+  jobs:
+    build:
+      #working_directory: ~/repo
+      docker:
+        - image: 'circleci/node:8'
+      steps:
+        - checkout
+        - restore_cache:
+            keys:
+              - v1-dependencies-{{ checksum "package.json" }}
+              - v1-dependencies-
+        - run: 
+            name:     Install dependenies with npm
+            command:  npm install
+
+        - save_cache:
+            key: v1-dependencies-{{ checksum "package.json" }}
+            paths:
+              - node_modules
+              
+        - run: 'yarn test'
+
+
+workflow:
+  version: 2
+  Build: 
+    jobs:
+      - build
