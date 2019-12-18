@@ -2,7 +2,7 @@ version: 2
 orbs:
   aws-s3: circleci/aws-s3@1.0.4
 jobs:
-  build:
+  build&deploy:
     docker:
       - image: circleci/node:7.10
 
@@ -34,9 +34,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-  deploy:
-    requires:
-      - build
       - aws-s3/sync:
             from: dist
             to: 'http://www.chillax-app.net.s3-website.eu-west-2.amazonaws.com/'
@@ -49,12 +46,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - build:        
-        filters:
-          branches:
-            only: master
-
-    - deploy:
+    - build&deploy:        
         filters:
           branches:
             only: master
