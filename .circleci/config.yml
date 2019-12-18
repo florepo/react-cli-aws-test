@@ -33,8 +33,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-aws s3 sync . s3://flow1981-codersuk-aws-exercise-frontend-on-s3 --exclude '.circleci/*' --exclude '.git/*'
-      - aws-s3/sync:
+     - aws-s3/sync:
           from: '.'
           to: 's3://mod4-project-frontend'
           arguments: |
