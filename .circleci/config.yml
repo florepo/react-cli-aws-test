@@ -34,7 +34,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - aws-s3/sync:
-          from: dist
+          from: ~/repo
           to: 's3://mod4-project-frontend'
           arguments: |
             --acl public-read \
