@@ -9,7 +9,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      AWS_REGION: europe-west-2
+      AWS_REGION: eu-west-2
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -33,9 +33,9 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
+aws s3 sync . s3://flow1981-codersuk-aws-exercise-frontend-on-s3 --exclude '.circleci/*' --exclude '.git/*'
       - aws-s3/sync:
-          from: ~/repo
+          from: '.'
           to: 's3://mod4-project-frontend'
           arguments: |
             --acl public-read \
