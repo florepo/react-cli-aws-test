@@ -1,9 +1,13 @@
 version: 2
+orbs:
+  aws-s3: circleci/aws-s3@1.0.4
 jobs:
   build:
     docker:
       # specify the version you desire here
       - image: circleci/node:7.10
+      environment:
+      AWS_REGION: europe-west-2
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -23,8 +27,34 @@ jobs:
             - v1-dependencies-
 
       - run: yarn install
+      - run: npm install
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
+  deploy:
+    requires:
+      - build
+      - aws-s3/sync:
+            from: dist
+            to: 'http://www.chillax-app.net.s3-website.eu-west-2.amazonaws.com/'
+            arguments: |
+              --acl public-read 
+              --cache-control "max-age=86400" 
+            overwrite: true
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build:        
+        filters:
+          branches:
+            only: master
+
+    - deploy:
+        filters:
+          branches:
+            only: master
