@@ -30,15 +30,15 @@ jobs:
      
       - run:
           name: Install dependencies with NPM
-          command: yarn install # replace with `yarn install` if using yarn
+          command: npm install # replace with `yarn install` if using yarn
 
       - save_cache:
-        paths:
-          - node_modules
-        key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 
       # Buil app
-      - run: yarn build
+      - run: npm run build
 
 
 
