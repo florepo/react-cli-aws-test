@@ -40,7 +40,6 @@ jobs:
             --acl public-read \
             --exclude \".git/*\" \
             --exclude \".gitignore\"
-            --delete
           overwrite: true
 
 workflows:
