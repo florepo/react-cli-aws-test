@@ -39,7 +39,7 @@ jobs:
           arguments: |
             --acl public-read \
             --exclude \".git/*\" \
-            --exclude \".gitignore\"
+            --exclude \".gitignore\" \
           overwrite: true
 
 workflows:
