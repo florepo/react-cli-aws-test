@@ -28,7 +28,7 @@ jobs:
 
       #  Install Dependencies
       - run: npm update
-      - run: npm install
+      - run: npm install -g create-react-app@1.0.3
 
 
       # Buil app
