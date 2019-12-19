@@ -27,7 +27,9 @@ jobs:
             - v1-dependencies-
 
       #  Install Dependencies
+      - run: npm update
       - run: npm install
+
 
       # Buil app
       - run: npm run build
