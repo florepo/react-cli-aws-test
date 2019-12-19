@@ -4,7 +4,7 @@ orbs:
 jobs:
   build-and-deploy:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:10
 
     working_directory: ~/repo
 
@@ -27,17 +27,20 @@ jobs:
             - v1-dependencies-
 
       #  Install Dependencies
-      - run: npm update
-      - run: npm install -g create-react-app@1.0.3
-
-
-      # Buil app
-      - run: npm run build
+     
+      - run:
+          name: Install dependencies with NPM
+          command: yarn install # replace with `yarn install` if using yarn
 
       - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+
+      # Buil app
+      - run: yarn build
+
+
 
       - aws-s3/sync:
           from: ~/repo
